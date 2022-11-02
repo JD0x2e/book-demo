@@ -2,12 +2,10 @@
 
 const express = require("express");
 const mongoose = require("mongoose");
-const axios = require("axios");
 const cors = require("cors");
 const Book = require("./models/book");
 const bp = require("body-parser");
-const { update } = require("./models/book");
-const PORT = process.env.PORT || 8080;
+const serverless = require("serverless-http");
 require("dotenv").config();
 
 const app = express();
@@ -16,14 +14,17 @@ app.use(cors());
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: true }));
 
+// const PORT = process.env.PORT || 8080;
+
 mongoose.connect(process.env.DATABASE_URL);
 
-app.get("/", (req, res) => {
+app.get("/.netlify/functions/api", (req, res) => {
+  console.log("we are here");
   res.json({ Jack: "is great" });
 });
 
 // retrieve all books
-app.get("/books", async (req, res) => {
+app.get("/.netlify/functions/api/books", async (req, res) => {
   try {
     // try and make a call to the database
     const allBooks = await Book.find();
@@ -36,7 +37,7 @@ app.get("/books", async (req, res) => {
 });
 
 // retrieve a specific book
-app.get("/books/:id", async (req, res) => {
+app.get("/.netlify/functions/api/books/:id", async (req, res) => {
   try {
     // try and make a call to the database
     const theBook = await Book.find({ _id: req.params.id });
@@ -49,7 +50,7 @@ app.get("/books/:id", async (req, res) => {
 });
 
 // create a new book
-app.post("/books", async (req, res) => {
+app.post("/.netlify/functions/api/books", async (req, res) => {
   try {
     // const cover = await axios.get(`https://covers.openlibrary.org/b/id/${req.body.isbn}-L.jpg`);
     const newBook = await Book.create(req.body);
@@ -61,7 +62,7 @@ app.post("/books", async (req, res) => {
 });
 
 // update a book
-app.put("/books/:id", async (req, res) => {
+app.put("/.netlify/functions/api/books/:id", async (req, res) => {
   try {
     const bookToUpdate = req.params.id;
     const updatedBook = await Book.updateOne({ _id: bookToUpdate }, req.body);
@@ -73,7 +74,7 @@ app.put("/books/:id", async (req, res) => {
 });
 
 // delete a book
-app.delete("/books/:id", async (req, res) => {
+app.delete("/.netlify/functions/api/books/:id", async (req, res) => {
   try {
     const bookToDelete = req.params.id;
     const deletedBook = await Book.deleteOne({ _id: bookToDelete }, req.body);
@@ -84,7 +85,21 @@ app.delete("/books/:id", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
+// old way of starting the server
+// app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
+
+// new Netlify way to start the server
+const handler = serverless(app);
+
+// we use this so the handler can use async (that mongoose uses)
+module.exports.handler = async (event, context) => {
+  // you can do any code here
+  const result = await handler(event, context);
+  // and here
+  return result;
+};
+
+// module.exports.handler = serverless(app);
 
 // When using 'Book', this is using mongoose, refer to models/book.js
 // mongoose is also the methods after Book such as 'updateOne', 'deleteOne' etc.
