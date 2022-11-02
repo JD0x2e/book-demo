@@ -1,13 +1,58 @@
+/*************
+General Elements
+**************/
+
+/*************
+Images
+**************/
+
+/*************
+Buttons / Links
+**************/
+.new-book-button {
+  padding: 0.5em;
+  border-radius: 5px;
+  border: none;
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+  background-color: var(--wht);
+  color: var(--dblue);
+}
+
+.new-book-button:hover {
+  background-color: var(--lblue);
+  color: var(--wht);
+}
+
+/*************
+Typography
+**************/
+
+/*************
+Layout
+**************/
+.new-book-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .form {
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
-input {
-  padding: 1em;
-  margin-left: 1em;
+.form-input {
+  padding: 0.75em;
+  width: 250px;
+  border-radius: 5px;
+  border: none;
+  margin-top: 0.5em;
 }
 
-button {
-  margin-left: 0.5em;
-}
+/*************
+Media Queries
+**************/

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { API_URL } from "../../api";
 
 export default function BookDetails() {
   const [book, setBook] = useState({});
@@ -32,13 +33,13 @@ export default function BookDetails() {
       }
     }
 
-    const API = `http://localhost:8080/books/${id}`;
+    const API = `${API_URL}/books/${id}`;
     const res = await axios.put(API, bodyToSend);
     getBookDetails();
   };
 
   const getBookDetails = async () => {
-    const API = `http://localhost:8080/books/${id}`;
+    const API = `${API_URL}/books/${id}`;
     const res = await axios.get(API);
     setBook(res.data[0]);
   };
@@ -56,13 +57,14 @@ export default function BookDetails() {
     <div>
       <br />
       <Link to="/">&#8617; Home</Link>
-      <h1>{book.title}</h1>
-      <p>{book.author}</p>
-      <p>{book.description}</p>
-      <p>{book.year}</p>
-      <p>ISBN: {book.isbn}</p>
-      <img src={`https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`} alt={`${book.title} cover`} />
-
+      <h1 className="book-title">{book.title}</h1>
+      <div>
+        <p>{book.author}</p>
+        <p>{book.description}</p>
+        <p>{book.year}</p>
+        <p>ISBN: {book.isbn}</p>
+        <img src={`https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`} alt={`${book.title} cover`} />
+      </div>
       <form onSubmit={updateBook}>
         <input name="title" onChange={handleChangeUpdate} value={formUpdate.title} placeholder="Title of Book" />
         <br />
