@@ -54,17 +54,21 @@ export default function BookDetails() {
   }
 
   return (
-    <div>
+    <div className="book-details">
       <br />
       <Link to="/">&#8617; Home</Link>
-      <h1 className="book-title">{book.title}</h1>
-      <div>
-        <p>{book.author}</p>
-        <p>{book.description}</p>
-        <p>{book.year}</p>
-        <p>ISBN: {book.isbn}</p>
-        <img src={`https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`} alt={`${book.title} cover`} />
+      <div className="book-container">
+        <h1 className="book-title">{book.title}</h1>
+        <div className="book">
+          <p>{book.author}</p>
+          <p>{book.description}</p>
+          <p>{book.year}</p>
+          <p>ISBN: {book.isbn}</p>
+          <img src={`https://covers.openlibrary.org/b/isbn/${book.isbn}-L.jpg`} alt={`${book.title} cover`} />
+        </div>
       </div>
+      <br />
+      <hr />
       <form onSubmit={updateBook}>
         <input name="title" onChange={handleChangeUpdate} value={formUpdate.title} placeholder="Title of Book" />
         <br />
