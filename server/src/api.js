@@ -21,7 +21,7 @@ app.get("/.netlify/functions/api", (req, res) => {
   res.json({ Jack: "is great" });
 });
 
-/// retrieve all books
+// retrieve all books
 app.get("/.netlify/functions/api/books", async (req, res) => {
   try {
     // try and make a call to the database
