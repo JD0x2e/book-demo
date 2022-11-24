@@ -85,7 +85,6 @@ app.delete("/.netlify/functions/api/books/:id", async (req, res) => {
   }
 });
 
-// old way of starting the server
 // app.listen(PORT, () => console.log(`App is listening on port ${PORT}`));
 
 // new Netlify way to start the server
@@ -100,6 +99,3 @@ module.exports.handler = async (event, context) => {
 };
 
 // module.exports.handler = serverless(app);
-
-// When using 'Book', this is using mongoose, refer to models/book.js
-// mongoose is also the methods after Book such as 'updateOne', 'deleteOne' etc.
