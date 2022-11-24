@@ -17,7 +17,7 @@ export default function App() {
     isbn: "",
   });
 
-  /// useEffect is when page loads or the dependencies change
+  // useEffect is when page loads or the dependencies change
   useEffect(() => {
     getAllBooks();
   }, []);
